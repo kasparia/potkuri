@@ -1,6 +1,7 @@
 #pragma once
 
 #include <juce_audio_processors/juce_audio_processors.h>
+#include <juce_dsp/juce_dsp.h>
 
 //==============================================================================
 class AudioPluginAudioProcessor  : public juce::AudioProcessor
@@ -42,7 +43,24 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    float oscStartPitch = 16000.0f;
+    float oscPitchValue = 0.0f;
+    float pitchRunTimer = 200.0f;
+    
+    float runner = 100.0f;
+    float gainValue = 0.25f;
+    
+    juce::dsp::Oscillator<float> osc {
+        [](float sinX) {
+            return std::sin(sinX);
+        }
+    };
+    
+    int lastPitch { 0 };
+    int lastMidiNote { 0 };
+
 private:
+    juce::dsp::Gain<float> gain;
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPluginAudioProcessor)
 };

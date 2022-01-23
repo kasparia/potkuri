@@ -89,6 +89,12 @@ void AudioPluginAudioProcessor::prepareToPlay (double sampleRate, int samplesPer
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
     juce::ignoreUnused (sampleRate, samplesPerBlock);
+    juce::dsp::ProcessSpec spec;
+    spec.maximumBlockSize = samplesPerBlock;
+    spec.sampleRate = sampleRate;
+    spec.numChannels = getTotalNumOutputChannels();
+    osc.prepare(spec);
+    gain.prepare(spec);
 }
 
 void AudioPluginAudioProcessor::releaseResources()
@@ -151,6 +157,28 @@ void AudioPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
         juce::ignoreUnused (channelData);
         // ..do something to the data...
     }
+
+    runner -= 100.0f;
+    if (runner <= 100.0f) runner = 18000.0f;
+    
+    // pitchRunTimer -= 5.0f;
+    //oscStartPitch -= 500.0f;
+    // oscPitchValue = logf(runner) * 5.0f;
+    // oscStartPitch -= oscPitchValue;
+    
+    
+    // if (pitchRunTimer < 10.0f) pitchRunTimer = 200.0f;
+    //if (oscStartPitch <= 20.0f) oscStartPitch = 16000.0f;
+    
+    
+    // std::cout << pitchRunTimer;
+    
+    gain.setGainLinear(gainValue);
+    osc.setFrequency(runner);
+    
+    juce::dsp::AudioBlock<float> audioBlock { buffer };
+    osc.process( juce::dsp::ProcessContextReplacing<float> (audioBlock) );
+    gain.process( juce::dsp::ProcessContextReplacing<float> (audioBlock) );
 }
 
 //==============================================================================
