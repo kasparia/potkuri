@@ -175,13 +175,22 @@ void AudioPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     oscPitchValue -= pow(log(runner) * 50.0f, runner);
     
     
-    // std::cout << pitchRunTimer;
+    std::cout << midiOscOn;
+
+    if (midiOscOn == true) {
+        gain.setGainLinear(0.25f);
+    } else {
+        gain.setGainLinear(0.0f);
+    }
     
-    gain.setGainLinear(gainValue);
     osc.setFrequency(runner);
+
+    
     
     juce::dsp::AudioBlock<float> audioBlock { buffer };
     osc.process( juce::dsp::ProcessContextReplacing<float> (audioBlock) );
+
+    // gain.setGainLinear(gainValue);
     gain.process( juce::dsp::ProcessContextReplacing<float> (audioBlock) );
 }
 

@@ -3,12 +3,18 @@
 
 //==============================================================================
 AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAudioProcessor& p)
-    : AudioProcessorEditor (&p), processorRef (p)
+    : AudioProcessorEditor (&p),
+      processorRef (p),
+      keyboardComponent (keyboardState, juce::MidiKeyboardComponent::horizontalKeyboard),
+      startTime (juce::Time::getMillisecondCounterHiRes() * 0.001)
 {
     juce::ignoreUnused (processorRef);
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (400, 300);
+    addAndMakeVisible (keyboardComponent);
+    keyboardState.addListener (this);
+
+    setSize (640, 480);
 }
 
 AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor()
@@ -28,6 +34,5 @@ void AudioPluginAudioProcessorEditor::paint (juce::Graphics& g)
 
 void AudioPluginAudioProcessorEditor::resized()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
+    keyboardComponent.setBounds (30, 300, 200, 200);
 }

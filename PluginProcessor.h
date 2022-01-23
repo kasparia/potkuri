@@ -1,7 +1,10 @@
 #pragma once
 
+#include <juce_audio_basics/juce_audio_basics.h>
+#include <juce_audio_devices/juce_audio_devices.h>
 #include <juce_audio_processors/juce_audio_processors.h>
 #include <juce_dsp/juce_dsp.h>
+#include <juce_audio_utils/juce_audio_utils.h>
 
 //==============================================================================
 class AudioPluginAudioProcessor  : public juce::AudioProcessor
@@ -45,6 +48,7 @@ public:
 
     float oscStartPitch = 16000.0f;
     float oscPitchValue = 0.0f;
+    float midiPitchValue = 0.0f;
     float pitchRunTimer = 200.0f;
     
     float runner = 2000.0f;
@@ -58,6 +62,8 @@ public:
     
     int lastPitch { 0 };
     int lastMidiNote { 0 };
+
+    bool midiOscOn = false; // when midi note is one -> play
 
 private:
     juce::dsp::Gain<float> gain;

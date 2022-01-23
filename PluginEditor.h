@@ -1,9 +1,18 @@
 #pragma once
 
+
+#include <juce_audio_basics/juce_audio_basics.h>
+#include <juce_audio_devices/juce_audio_devices.h>
+#include <juce_audio_processors/juce_audio_processors.h>
+#include <juce_dsp/juce_dsp.h>
+#include <juce_audio_utils/juce_audio_utils.h>
+
 #include "PluginProcessor.h"
 
 //==============================================================================
-class AudioPluginAudioProcessorEditor  : public juce::AudioProcessorEditor
+class AudioPluginAudioProcessorEditor  : public juce::AudioProcessorEditor,
+                                        private juce::MidiInputCallback,
+                                        private juce::MidiKeyboardStateListener
 {
 public:
     explicit AudioPluginAudioProcessorEditor (AudioPluginAudioProcessor&);
@@ -17,6 +26,40 @@ private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     AudioPluginAudioProcessor& processorRef;
+
+        /*    */
+    juce::AudioDeviceManager deviceManager;
+    juce::ComboBox midiInputList;
+    juce::Label midiInputListLabel;
+    int lastInputIndex = 0;
+    bool isAddingFromMidiInput = false;
+    juce::MidiKeyboardState keyboardState;
+    juce::MidiKeyboardComponent keyboardComponent;
+    /*    */
+    
+
+    // These methods handle callbacks from the midi device + on-screen keyboard..
+    void handleIncomingMidiMessage (juce::MidiInput* source, const juce::MidiMessage& message) override
+    {
+        keyboardState.processNextMidiEvent (message);
+    }
+
+    void handleNoteOn (juce::MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) override
+    {
+        auto midiNoteToOsc = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber);
+        processorRef.midiPitchValue = midiNoteToOsc;
+        processorRef.midiOscOn = true;
+    }
+
+    void handleNoteOff (juce::MidiKeyboardState*, int midiChannel, int midiNoteNumber, float /*velocity*/) override
+    {
+        auto m = juce::MidiMessage::noteOff (midiChannel, midiNoteNumber);
+        processorRef.midiOscOn = false;
+    }
+
+     
+    juce::TextEditor midiMessagesBox;
+    double startTime;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPluginAudioProcessorEditor)
 };
