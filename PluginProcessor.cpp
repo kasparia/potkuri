@@ -158,8 +158,11 @@ void AudioPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
         // ..do something to the data...
     }
 
-    runner -= 100.0f;
-    if (runner <= 100.0f) runner = 18000.0f;
+    runner -= 50.0f;
+    if (runner <= 100.0f) {
+        oscPitchValue = 18000.0f;
+        runner = 2000.0f;
+    }
     
     // pitchRunTimer -= 5.0f;
     //oscStartPitch -= 500.0f;
@@ -169,6 +172,7 @@ void AudioPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     
     // if (pitchRunTimer < 10.0f) pitchRunTimer = 200.0f;
     //if (oscStartPitch <= 20.0f) oscStartPitch = 16000.0f;
+    oscPitchValue -= pow(log(runner) * 50.0f, runner);
     
     
     // std::cout << pitchRunTimer;

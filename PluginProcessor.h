@@ -47,7 +47,7 @@ public:
     float oscPitchValue = 0.0f;
     float pitchRunTimer = 200.0f;
     
-    float runner = 100.0f;
+    float runner = 2000.0f;
     float gainValue = 0.25f;
     
     juce::dsp::Oscillator<float> osc {
