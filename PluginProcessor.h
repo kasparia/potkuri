@@ -46,13 +46,14 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-    float oscStartPitch = 16000.0f;
-    float oscPitchValue = 0.0f;
+    float oscBasePitch = 2.0f; // x
+    float oscPitchValue = 2.0f;
     float midiPitchValue = 0.0f;
     float pitchRunTimer = 200.0f;
     
-    float runner = 2000.0f;
-    float gainValue = 0.25f;
+    float runner = 14.20f; // potenssiin y
+
+    float gainValue = 0.0f;
     
     juce::dsp::Oscillator<float> osc {
         [](float sinX) {

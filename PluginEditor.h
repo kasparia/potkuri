@@ -48,13 +48,19 @@ private:
     {
         auto midiNoteToOsc = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber);
         processorRef.midiPitchValue = midiNoteToOsc;
-        processorRef.midiOscOn = true;
+
+        if (!processorRef.midiOscOn) {
+            processorRef.midiOscOn = true;
+            processorRef.gainValue = 0.25f;
+        }
+
+        // std::cout << midiNoteNumber;
     }
 
     void handleNoteOff (juce::MidiKeyboardState*, int midiChannel, int midiNoteNumber, float /*velocity*/) override
     {
         auto m = juce::MidiMessage::noteOff (midiChannel, midiNoteNumber);
-        processorRef.midiOscOn = false;
+        //processorRef.midiOscOn = false;
     }
 
      
