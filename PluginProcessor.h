@@ -54,12 +54,20 @@ public:
     float runner = 14.20f; // potenssiin y
 
     float gainValue = 0.0f;
+    //float oscRunner = 0.0f;
     
     juce::dsp::Oscillator<float> osc {
         [](float sinX) {
             return std::sin(sinX);
         }
     };
+
+    // drum osc
+    /* juce::dsp::Oscillator<float> osc {
+        [](float sinX) {
+            return std::sin(sinX);
+        }
+    }; */
     
     int lastPitch { 0 };
     int lastMidiNote { 0 };
