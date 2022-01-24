@@ -46,7 +46,7 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-    float oscBasePitch = 2.0f; // x
+    float oscBasePitch = 1.15f; // x
     float oscPitchValue = 2.0f;
     float midiPitchValue = 0.0f;
     float pitchRunTimer = 200.0f;
@@ -54,6 +54,7 @@ public:
     float runner = 14.20f; // potenssiin y
 
     float gainValue = 0.0f;
+    float gainStartValue = 0.35f;
     //float oscRunner = 0.0f;
     
     juce::dsp::Oscillator<float> osc {

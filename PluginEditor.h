@@ -51,7 +51,7 @@ private:
 
         if (!processorRef.midiOscOn) {
             processorRef.midiOscOn = true;
-            processorRef.gainValue = 0.25f;
+            processorRef.gainValue = processorRef.gainStartValue;
         }
 
         // std::cout << midiNoteNumber;
