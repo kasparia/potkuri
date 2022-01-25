@@ -70,7 +70,8 @@ juce_generate_juce_header(AudioPluginExample)
 target_sources(AudioPluginExample
     PRIVATE
         PluginEditor.cpp
-        PluginProcessor.cpp)
+        PluginProcessor.cpp
+        SynthVoice.cpp)
 
 # `target_compile_definitions` adds some preprocessor definitions to our target. In a Projucer
 # project, these might be passed in the 'Preprocessor Definitions' field. JUCE modules also make use
@@ -106,6 +107,9 @@ target_link_libraries(AudioPluginExample
         # AudioPluginData           # If we'd created a binary data target, we'd link to it here
         juce::juce_dsp
         juce::juce_audio_utils
+        juce::juce_audio_basics
+        juce::juce_audio_devices
+        juce::juce_audio_processors
     PUBLIC
         juce::juce_recommended_config_flags
         juce::juce_recommended_lto_flags

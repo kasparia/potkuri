@@ -1,10 +1,7 @@
 #pragma once
 
-#include <juce_audio_basics/juce_audio_basics.h>
-#include <juce_audio_devices/juce_audio_devices.h>
-#include <juce_audio_processors/juce_audio_processors.h>
-#include <juce_dsp/juce_dsp.h>
-#include <juce_audio_utils/juce_audio_utils.h>
+#include "SynthSound.h"
+#include "SynthVoice.h"
 
 //==============================================================================
 class AudioPluginAudioProcessor  : public juce::AudioProcessor
@@ -63,6 +60,8 @@ public:
         }
     };
 
+    //juce::dsp::Gain<float> gain;
+
     // drum osc
     /* juce::dsp::Oscillator<float> osc {
         [](float sinX) {
@@ -75,8 +74,11 @@ public:
 
     bool midiOscOn = false; // when midi note is one -> play
 
+    juce::Synthesiser synth;
+
 private:
     juce::dsp::Gain<float> gain;
+
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPluginAudioProcessor)
 };

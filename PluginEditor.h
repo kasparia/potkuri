@@ -54,6 +54,8 @@ private:
             processorRef.gainValue = processorRef.gainStartValue;
         }
 
+        //processorRef.synth.noteOn(midiNoteNumber);
+
         // std::cout << midiNoteNumber;
     }
 
