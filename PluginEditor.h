@@ -47,22 +47,12 @@ private:
     void handleNoteOn (juce::MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) override
     {
         auto midiNoteToOsc = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber);
-        processorRef.midiPitchValue = midiNoteToOsc;
-
-        if (!processorRef.midiOscOn) {
-            processorRef.midiOscOn = true;
-            processorRef.gainValue = processorRef.gainStartValue;
-        }
-
-        //processorRef.synth.noteOn(midiNoteNumber);
         processorRef.synthPlayNote(midiNoteNumber, velocity);
-
     }
 
     void handleNoteOff (juce::MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) override
     {
         // auto m = juce::MidiMessage::noteOff (midiChannel, midiNoteNumber);
-
         processorRef.synthStopNote(midiNoteNumber, velocity);
     }
 

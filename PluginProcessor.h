@@ -45,32 +45,6 @@ public:
 
     void synthPlayNote(int midiNoteNumber, float velocity);
     void synthStopNote(int midiNoteNumber, float velocity);
-
-    float oscBasePitch = 1.15f; // x
-    float oscPitchValue = 2.0f;
-    float midiPitchValue = 0.0f;
-    float pitchRunTimer = 200.0f;
-    
-    float runner = 14.20f; // potenssiin y
-
-    float gainValue = 0.0f;
-    float gainStartValue = 0.35f;
-    //float oscRunner = 0.0f;
-    
-    juce::dsp::Oscillator<float> osc {
-        [](float sinX) {
-            return std::sin(sinX);
-        }
-    };
-
-    //juce::dsp::Gain<float> gain;
-
-    // drum osc
-    /* juce::dsp::Oscillator<float> osc {
-        [](float sinX) {
-            return std::sin(sinX);
-        }
-    }; */
     
     int lastPitch { 0 };
     int lastMidiNote { 0 };
@@ -80,8 +54,6 @@ public:
     juce::Synthesiser synth;
 
 private:
-    juce::dsp::Gain<float> gain;
-
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPluginAudioProcessor)
 };
