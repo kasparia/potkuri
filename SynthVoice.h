@@ -21,7 +21,8 @@ class SynthVoice : public juce::SynthesiserVoice {
 
     juce::dsp::Oscillator<float> osc {
         [](float sinX) {
-            return std::sin(sinX);
+            // return std::sin(sinX);
+            return std::sin(sinX * std::cos(sinX));
         }
     };
 
