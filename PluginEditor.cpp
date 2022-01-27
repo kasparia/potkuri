@@ -34,5 +34,5 @@ void AudioPluginAudioProcessorEditor::paint (juce::Graphics& g)
 
 void AudioPluginAudioProcessorEditor::resized()
 {
-    keyboardComponent.setBounds (30, 300, 200, 200);
+    keyboardComponent.setBounds (30, 300, 500, 200);
 }

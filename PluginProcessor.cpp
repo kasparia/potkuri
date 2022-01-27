@@ -177,7 +177,7 @@ void AudioPluginAudioProcessor::synthPlayNote(int midiNoteNumber, float velocity
     synth.noteOn(1, midiNoteNumber, velocity);
 }
 
-void AudioPluginAudioProcessor::synthStopNote(int midiNoteNumber, float velocity, bool allowTailOff) {
+void AudioPluginAudioProcessor::synthStopNote(int midiNoteNumber, float velocity) {
     synth.noteOff(1, midiNoteNumber, velocity, true);
 }
 

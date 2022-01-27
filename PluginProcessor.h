@@ -44,7 +44,7 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
     void synthPlayNote(int midiNoteNumber, float velocity);
-    void synthStopNote(int midiNoteNumber, float velocity, bool allowTailOff);
+    void synthStopNote(int midiNoteNumber, float velocity);
 
     float oscBasePitch = 1.15f; // x
     float oscPitchValue = 2.0f;

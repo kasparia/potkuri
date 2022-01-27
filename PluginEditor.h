@@ -63,7 +63,7 @@ private:
     {
         // auto m = juce::MidiMessage::noteOff (midiChannel, midiNoteNumber);
 
-        processorRef.synthPlayNote(midiNoteNumber, velocity);
+        processorRef.synthStopNote(midiNoteNumber, velocity);
     }
 
      

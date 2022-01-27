@@ -24,6 +24,14 @@ void SynthVoice::pitchWheelMoved (int newPitchWheelValue) {
 void SynthVoice::prepareToPlay (double sampleRate, int samplesPerBlock, int outputChannels) {
     adsr.setSampleRate(sampleRate);
 
+    adsrParams.attack = 0.0f;
+    adsrParams.decay = 0.5f;
+    adsrParams.sustain = 0.5f;
+    adsrParams.release = 0.2f;
+
+
+    adsr.setParameters(adsrParams);
+
     juce::dsp::ProcessSpec spec;
     spec.maximumBlockSize = samplesPerBlock;
     spec.sampleRate = sampleRate;
