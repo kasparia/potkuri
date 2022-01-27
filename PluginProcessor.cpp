@@ -159,50 +159,6 @@ void AudioPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     }
 
 
-    /*if (gainValue > 0.0f) {
-        gainValue -= 0.01f;
-    }
-
-    gain.setGainLinear(gainValue);
-
-
-    if (midiOscOn) {
-        std::cout << runner;
-        std::cout << "-------";
-        std::cout << oscPitchValue;
-        std::cout << "\n";
-    }*/
-    
-    // pitchRunTimer -= 5.0f;
-    //oscStartPitch -= 500.0f;
-    // oscPitchValue = logf(runner) * 5.0f;
-    // oscStartPitch -= oscPitchValue;
-    
-    
-    // if (pitchRunTimer < 10.0f) pitchRunTimer = 200.0f;
-    //if (oscStartPitch <= 20.0f) oscStartPitch = 16000.0f;
-    //oscPitchValue -= pow(log(runner) * 50.0f, runner);
-
-    
-    //oscPitchValue = pow(oscBasePitch, runner); // piu piu
-    // oscPitchValue = 20000.0f - (std::sin(oscBasePitch / (runner / 2.0f + 4.0f)) * 10000); // oikee basarifunktio
-
-    /*if (runner <= 0.1f) {
-        runner = 14.20f;
-        midiOscOn = false;
-    }*/
-
-    //if (midiOscOn && runner > 0.1f) {
-        //runner = runner / 1.25; // piu piu
-        /* runner = runner / 2.0f; */
-    //}
-    
-
-    /*if (midiOscOn == true) {
-        gain.setGainLinear(0.25f);
-    }*/
-    //osc.setFrequency(oscPitchValue);
-
 
     // SYNTH STUFF ++
 
