@@ -95,8 +95,6 @@ void AudioPluginAudioProcessor::prepareToPlay (double sampleRate, int samplesPer
     spec.maximumBlockSize = samplesPerBlock;
     spec.sampleRate = sampleRate;
     spec.numChannels = getTotalNumOutputChannels();
-    //osc.prepare(spec);
-    //gain.prepare(spec);
 
     synth.setCurrentPlaybackSampleRate(sampleRate);
 
@@ -159,7 +157,6 @@ void AudioPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     }
 
 
-
     // SYNTH STUFF ++
 
     /*for (int voiceIndex = 0; voiceIndex < synth.getNumVoices(); voiceIndex++) {
@@ -170,11 +167,18 @@ void AudioPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
 
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     // SYNTH STUFF --
-    
-    
+
+
     juce::dsp::AudioBlock<float> audioBlock { buffer };
-    osc.process( juce::dsp::ProcessContextReplacing<float> (audioBlock) );
-    gain.process( juce::dsp::ProcessContextReplacing<float> (audioBlock) );
+    
+}
+
+void AudioPluginAudioProcessor::synthPlayNote(int midiNoteNumber, float velocity) {
+    synth.noteOn(1, midiNoteNumber, velocity);
+}
+
+void AudioPluginAudioProcessor::synthStopNote(int midiNoteNumber, float velocity, bool allowTailOff) {
+    synth.noteOff(1, midiNoteNumber, velocity, true);
 }
 
 //==============================================================================

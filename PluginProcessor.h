@@ -43,6 +43,9 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    void synthPlayNote(int midiNoteNumber, float velocity);
+    void synthStopNote(int midiNoteNumber, float velocity, bool allowTailOff);
+
     float oscBasePitch = 1.15f; // x
     float oscPitchValue = 2.0f;
     float midiPitchValue = 0.0f;

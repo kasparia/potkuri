@@ -55,14 +55,15 @@ private:
         }
 
         //processorRef.synth.noteOn(midiNoteNumber);
+        processorRef.synthPlayNote(midiNoteNumber, velocity);
 
-        // std::cout << midiNoteNumber;
     }
 
-    void handleNoteOff (juce::MidiKeyboardState*, int midiChannel, int midiNoteNumber, float /*velocity*/) override
+    void handleNoteOff (juce::MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) override
     {
-        auto m = juce::MidiMessage::noteOff (midiChannel, midiNoteNumber);
-        //processorRef.midiOscOn = false;
+        // auto m = juce::MidiMessage::noteOff (midiChannel, midiNoteNumber);
+
+        processorRef.synthPlayNote(midiNoteNumber, velocity);
     }
 
      
