@@ -11,6 +11,7 @@
 
 //==============================================================================
 class AudioPluginAudioProcessorEditor  : public juce::AudioProcessorEditor,
+                                        public juce::Slider::Listener,
                                         private juce::MidiInputCallback,
                                         private juce::MidiKeyboardStateListener
 {
@@ -21,13 +22,14 @@ public:
     //==============================================================================
     void paint (juce::Graphics&) override;
     void resized() override;
+    void sliderValueChanged (juce::Slider* slider) override;
 
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     AudioPluginAudioProcessor& processorRef;
 
-        /*    */
+    /*    */
     juce::AudioDeviceManager deviceManager;
     juce::ComboBox midiInputList;
     juce::Label midiInputListLabel;
@@ -36,6 +38,9 @@ private:
     juce::MidiKeyboardState keyboardState;
     juce::MidiKeyboardComponent keyboardComponent;
     /*    */
+
+    juce::Slider attackSlider;
+    juce::Slider releaseSlider;
     
 
     // These methods handle callbacks from the midi device + on-screen keyboard..

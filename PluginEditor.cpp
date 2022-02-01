@@ -14,6 +14,13 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
     addAndMakeVisible (keyboardComponent);
     keyboardState.addListener (this);
 
+
+    attackSlider.setSliderStyle( juce::Slider::SliderStyle::LinearVertical );
+    attackSlider.setRange(0.01f, 1.0f, 0.01f);
+    attackSlider.setValue(0.1f);
+    attackSlider.addListener(this);
+    addAndMakeVisible(attackSlider);
+
     setSize (640, 480);
 }
 
@@ -34,5 +41,12 @@ void AudioPluginAudioProcessorEditor::paint (juce::Graphics& g)
 
 void AudioPluginAudioProcessorEditor::resized()
 {
-    keyboardComponent.setBounds (30, 300, 500, 200);
+    attackSlider.setBounds(30, 30, 50, 80);
+    keyboardComponent.setBounds(30, 300, 500, 200);
+}
+
+void AudioPluginAudioProcessorEditor::sliderValueChanged (juce::Slider *slider) {
+    if (slider == &attackSlider) {
+        processorRef.attackSliderValue = attackSlider.getValue();
+    }
 }

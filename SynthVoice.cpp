@@ -54,3 +54,7 @@ void SynthVoice::renderNextBlock (juce::AudioBuffer< float > &outputBuffer, int 
 
   adsr.applyEnvelopeToBuffer(outputBuffer, startSample, numSamples);
 }
+
+void SynthVoice::setADSRParameters(float attack) {
+  adsrParams.attack = attack;
+};

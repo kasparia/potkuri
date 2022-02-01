@@ -53,7 +53,11 @@ public:
 
     juce::Synthesiser synth;
 
+    void setSynthParameters();
+    float attackSliderValue = 0.1;
+    
 private:
     //==============================================================================
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPluginAudioProcessor)
 };

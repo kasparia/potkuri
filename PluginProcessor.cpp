@@ -156,6 +156,8 @@ void AudioPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
         // ..do something to the data...
     }
 
+    setSynthParameters();
+
 
     // SYNTH STUFF ++
 
@@ -180,6 +182,15 @@ void AudioPluginAudioProcessor::synthPlayNote(int midiNoteNumber, float velocity
 void AudioPluginAudioProcessor::synthStopNote(int midiNoteNumber, float velocity) {
     synth.noteOff(1, midiNoteNumber, velocity, true);
 }
+
+void AudioPluginAudioProcessor::setSynthParameters() {
+    for (int voiceIndex = 0; voiceIndex < synth.getNumVoices(); voiceIndex++) {
+        if (auto voice = dynamic_cast<juce::SynthesiserVoice*>(synth.getVoice(voiceIndex))) {
+            // voice->setADSRParameters(attackSliderValue);
+        }
+    }
+}
+
 
 //==============================================================================
 bool AudioPluginAudioProcessor::hasEditor() const
