@@ -19,7 +19,25 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
     attackSlider.setRange(0.01f, 1.0f, 0.01f);
     attackSlider.setValue(0.1f);
     attackSlider.addListener(this);
+    attackSlider.setTextBoxStyle (juce::Slider::TextBoxLeft, false, 40, attackSlider.getTextBoxHeight());
     addAndMakeVisible(attackSlider);
+
+    addAndMakeVisible(attackLabel);
+    attackLabel.setText("Attack", juce::dontSendNotification);
+    attackLabel.attachToComponent(&attackSlider, true);
+    
+
+    releaseSlider.setSliderStyle( juce::Slider::SliderStyle::LinearVertical );
+    releaseSlider.setRange(0.01f, 1.0f, 0.01f);
+    releaseSlider.setValue(0.1f);
+    releaseSlider.addListener(this);
+    releaseSlider.setTextBoxStyle (juce::Slider::TextBoxLeft, false, 40, releaseSlider.getTextBoxHeight());
+    addAndMakeVisible(releaseSlider);
+
+    addAndMakeVisible(releaseLabel);
+    releaseLabel.setText("Release", juce::dontSendNotification);
+    releaseLabel.attachToComponent(&releaseSlider, true);
+    
 
     setSize (640, 480);
 }
@@ -41,12 +59,16 @@ void AudioPluginAudioProcessorEditor::paint (juce::Graphics& g)
 
 void AudioPluginAudioProcessorEditor::resized()
 {
-    attackSlider.setBounds(30, 30, 50, 80);
+    attackSlider.setBounds(50, 30, 100, 140);
+    releaseSlider.setBounds(200, 30, 100, 140);
     keyboardComponent.setBounds(30, 300, 500, 200);
 }
 
 void AudioPluginAudioProcessorEditor::sliderValueChanged (juce::Slider *slider) {
     if (slider == &attackSlider) {
         processorRef.attackSliderValue = attackSlider.getValue();
+    }
+    if (slider == &releaseSlider) {
+        processorRef.releaseSliderValue = releaseSlider.getValue();
     }
 }

@@ -22,27 +22,27 @@ void SynthVoice::pitchWheelMoved (int newPitchWheelValue) {
 }
 
 void SynthVoice::prepareToPlay (double sampleRate, int samplesPerBlock, int outputChannels) {
-    adsr.setSampleRate(sampleRate);
+  adsr.setSampleRate(sampleRate);
 
-    adsrParams.attack = 0.0f;
-    adsrParams.decay = 0.5f;
-    adsrParams.sustain = 0.5f;
-    adsrParams.release = 0.2f;
+  adsrParams.attack = 0.0f;
+  adsrParams.decay = 0.5f;
+  adsrParams.sustain = 0.5f;
+  adsrParams.release = 0.2f;
 
 
-    adsr.setParameters(adsrParams);
+  adsr.setParameters(adsrParams);
 
-    juce::dsp::ProcessSpec spec;
-    spec.maximumBlockSize = samplesPerBlock;
-    spec.sampleRate = sampleRate;
-    spec.numChannels = outputChannels;
-    osc.prepare(spec);
-    gain.prepare(spec);
+  juce::dsp::ProcessSpec spec;
+  spec.maximumBlockSize = samplesPerBlock;
+  spec.sampleRate = sampleRate;
+  spec.numChannels = outputChannels;
+  osc.prepare(spec);
+  gain.prepare(spec);
 
-    osc.setFrequency(440.0f);
-    gain.setGainLinear(0.25f);
+  osc.setFrequency(440.0f);
+  gain.setGainLinear(0.25f);
 
-    isPrepared = true;
+  isPrepared = true;
 }
 
 void SynthVoice::renderNextBlock (juce::AudioBuffer< float > &outputBuffer, int startSample, int numSamples) {
@@ -55,6 +55,8 @@ void SynthVoice::renderNextBlock (juce::AudioBuffer< float > &outputBuffer, int 
   adsr.applyEnvelopeToBuffer(outputBuffer, startSample, numSamples);
 }
 
-void SynthVoice::setADSRParameters(float attack) {
+void SynthVoice::setADSRParameters(float attack, float release) {
   adsrParams.attack = attack;
+  adsrParams.release = release;
+  adsr.setParameters(adsrParams);
 };

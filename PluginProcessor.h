@@ -55,6 +55,7 @@ public:
 
     void setSynthParameters();
     float attackSliderValue = 0.1;
+    float releaseSliderValue = 0.1;
     
 private:
     //==============================================================================

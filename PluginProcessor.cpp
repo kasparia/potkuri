@@ -156,19 +156,8 @@ void AudioPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
         // ..do something to the data...
     }
 
-    setSynthParameters();
-
-
-    // SYNTH STUFF ++
-
-    /*for (int voiceIndex = 0; voiceIndex < synth.getNumVoices(); voiceIndex++) {
-        if (auto voice = dynamic_cast<juce::SynthesiserVoice*>(synth.getVoice(voiceIndex))) {
-            // do voice stuff here
-        }
-    }*/
-
+    setSynthParameters(); // set synth adsr etc...
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
-    // SYNTH STUFF --
 
 
     juce::dsp::AudioBlock<float> audioBlock { buffer };
@@ -185,8 +174,8 @@ void AudioPluginAudioProcessor::synthStopNote(int midiNoteNumber, float velocity
 
 void AudioPluginAudioProcessor::setSynthParameters() {
     for (int voiceIndex = 0; voiceIndex < synth.getNumVoices(); voiceIndex++) {
-        if (auto voice = dynamic_cast<juce::SynthesiserVoice*>(synth.getVoice(voiceIndex))) {
-            // voice->setADSRParameters(attackSliderValue);
+        if (auto voice = dynamic_cast<SynthVoice*>(synth.getVoice(voiceIndex))) {
+            voice->setADSRParameters(attackSliderValue, releaseSliderValue);
         }
     }
 }

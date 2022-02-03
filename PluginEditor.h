@@ -39,7 +39,10 @@ private:
     juce::MidiKeyboardComponent keyboardComponent;
     /*    */
 
+    juce::Label attackLabel;
     juce::Slider attackSlider;
+
+    juce::Label releaseLabel;
     juce::Slider releaseSlider;
     
 

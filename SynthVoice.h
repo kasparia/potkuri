@@ -15,7 +15,8 @@ class SynthVoice : public juce::SynthesiserVoice {
 
     void prepareToPlay (double sampleRate, int samplesPerBlock, int outputChannels);
 
-    void setADSRParameters(float attack);
+    void setADSRParameters(float attack, float release);
+    juce::ADSR& getADSR() { return adsr; }
 
   private:
 
