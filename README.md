@@ -2,6 +2,10 @@
 Simple kick drum plugin...for fun
 
 ## Installation and compiling
-Clone JUCE to JUCE named folder with `git clone git@github.com:juce-framework/JUCE.git` at the project root.
+JUCE is used as submodule in this project. To get it working locally clone this project normally. Then in project folder run: 
+```git submodule init```
+and
+```git submodule update```
+These command fetch JUCE from git reposity for compiling.
 
 Compile using Cmake configuration found from `CMakeList.txt`
