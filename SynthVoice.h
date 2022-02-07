@@ -18,6 +18,8 @@ class SynthVoice : public juce::SynthesiserVoice {
     void setADSRParameters(float attack, float release);
     juce::ADSR& getADSR() { return adsr; }
 
+    void setPitchValue();
+
   private:
 
     juce::ADSR adsr;
@@ -29,6 +31,10 @@ class SynthVoice : public juce::SynthesiserVoice {
             return std::sin(sinX * std::cos(sinX));
         }
     };
+
+    double baseNote;
+    double runningNote = 440.0;
+    double runningTime = 0;
 
     juce::dsp::Gain<float> gain;
 
