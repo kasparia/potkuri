@@ -16,8 +16,8 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
 
 
     attackSlider.setSliderStyle( juce::Slider::SliderStyle::LinearVertical );
-    attackSlider.setRange(0.01f, 1.0f, 0.01f);
-    attackSlider.setValue(0.1f);
+    attackSlider.setRange(0.01f, 1.0f, 0.02f);
+    attackSlider.setValue(0.01f);
     attackSlider.addListener(this);
     attackSlider.setTextBoxStyle (juce::Slider::TextBoxLeft, false, 40, attackSlider.getTextBoxHeight());
     addAndMakeVisible(attackSlider);
@@ -29,7 +29,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
 
     releaseSlider.setSliderStyle( juce::Slider::SliderStyle::LinearVertical );
     releaseSlider.setRange(0.01f, 1.0f, 0.01f);
-    releaseSlider.setValue(0.1f);
+    releaseSlider.setValue(0.01f);
     releaseSlider.addListener(this);
     releaseSlider.setTextBoxStyle (juce::Slider::TextBoxLeft, false, 40, releaseSlider.getTextBoxHeight());
     addAndMakeVisible(releaseSlider);

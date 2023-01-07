@@ -54,7 +54,7 @@ public:
     juce::Synthesiser synth;
 
     void setSynthParameters();
-    float attackSliderValue = 0.1;
+    float attackSliderValue = 0.01f;
     float releaseSliderValue = 0.1;
     
 private:
