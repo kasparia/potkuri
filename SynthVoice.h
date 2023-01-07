@@ -35,6 +35,7 @@ class SynthVoice : public juce::SynthesiserVoice {
     double baseNote;
     double runningNote = 440.0;
     double runningTime = 0;
+    double currentPitch = 18000.0;
 
     juce::dsp::Gain<float> gain;
 

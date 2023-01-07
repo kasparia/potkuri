@@ -6,11 +6,12 @@ bool SynthVoice::canPlaySound (juce::SynthesiserSound* sound) {
 
 void SynthVoice::startNote (int midiNoteNumber, float velocity, juce::SynthesiserSound *sound, int currentPitchWheelPosition) {
   baseNote = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber);
-  osc.setFrequency(baseNote);
+  // osc.setFrequency(baseNote);
   adsr.noteOn();
 
   runningTime = 0.0;
-  runningNote = 3.0 * baseNote;
+  runningNote = 8.5;
+  currentPitch = baseNote;
 }
 
 void SynthVoice::stopNote (float velocity, bool allowTailOff) {
@@ -68,18 +69,27 @@ void SynthVoice::setADSRParameters(float attack, float release) {
 }
 
 void SynthVoice::setPitchValue() {
-  runningTime += 0.01;
-  
-  if (runningNote > 40.0) {
-    runningNote = runningNote - abs(15.0 * sin(200000.0 / (2000.0 + runningTime)));
-  }
+  runningTime += 1.0;
 
-  if (runningNote < 40.0) {
-    runningNote = 20.0;
-  }
 
-  // std::cout << "runner:" << runningTime << std::endl;
-  std::cout << "note:" << runningNote << std::endl;
-  osc.setFrequency(runningNote);
+  if (runningTime > 10.0) {
+
+      if (runningNote > 0.4 && currentPitch > 40.0) {
+        currentPitch = currentPitch - exp(runningNote);
+        runningNote -= (0.5 * adsrParams.release);
+
+        if (currentPitch < 20.0) {
+          currentPitch = 20.0;
+        }
+      } else {
+        currentPitch = 20.0;
+      }
+
+      
+      std::cout << "time: " << runningTime << "    PITCH: " << currentPitch << std::endl;
+      std::cout << "-----------" << std::endl;
+      osc.setFrequency(currentPitch);
+      runningTime = 0.0;
+  }
   
 }
