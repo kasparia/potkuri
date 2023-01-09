@@ -15,7 +15,7 @@ class SynthVoice : public juce::SynthesiserVoice {
 
     void prepareToPlay (double sampleRate, int samplesPerBlock, int outputChannels);
 
-    void setADSRParameters(float attack, float release);
+    void setADSRParameters(float attack, float decay, float release, float modulationValue);
     juce::ADSR& getADSR() { return adsr; }
 
     void setPitchValue();
@@ -26,16 +26,29 @@ class SynthVoice : public juce::SynthesiserVoice {
     juce::ADSR::Parameters adsrParams;
 
     juce::dsp::Oscillator<float> osc {
-        [](float sinX) {
-            // return std::sin(sinX);
-            return std::sin(sinX * std::cos(sinX));
-        }
+      // sine
+      /*[](float sinX) {
+        return std::sin(sinX);
+      }*/
+
+      // saw
+      /*[](float sinX) {
+        return sinX / juce::MathConstants<float>::pi;
+      }*/
+
+      //
+      [](float sinX) {
+        return sinX / juce::MathConstants<float>::pi * std::sin(sinX);
+      }
     };
+
+    juce::AudioBuffer<float> synthBuffer;
 
     double baseNote;
     double runningNote = 440.0;
     double runningTime = 0;
     double currentPitch = 18000.0;
+    double modulationMultiply = 0.0;
 
     juce::dsp::Gain<float> gain;
 

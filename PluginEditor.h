@@ -37,14 +37,18 @@ private:
     bool isAddingFromMidiInput = false;
     juce::MidiKeyboardState keyboardState;
     juce::MidiKeyboardComponent keyboardComponent;
-    /*    */
 
     juce::Label attackLabel;
     juce::Slider attackSlider;
 
+    juce::Label decayLabel;
+    juce::Slider decaySlider;
+
     juce::Label releaseLabel;
     juce::Slider releaseSlider;
     
+    juce::Label modulationLabel;
+    juce::Slider modulationSlider;
 
     // These methods handle callbacks from the midi device + on-screen keyboard..
     void handleIncomingMidiMessage (juce::MidiInput* source, const juce::MidiMessage& message) override
@@ -67,6 +71,27 @@ private:
      
     juce::TextEditor midiMessagesBox;
     double startTime;
+
+    /** Starts listening to a MIDI input device, enabling it if necessary. */
+    void setMidiInput (int index)
+    {
+        auto list = juce::MidiInput::getAvailableDevices();
+
+        deviceManager.removeMidiInputDeviceCallback(list[lastInputIndex].identifier, this);
+
+        auto newInput = list[index];
+
+        if (! deviceManager.isMidiInputDeviceEnabled (newInput.identifier))
+            deviceManager.setMidiInputDeviceEnabled (newInput.identifier, true);
+
+        deviceManager.addMidiInputDeviceCallback (newInput.identifier, this);
+        midiInputList.setSelectedId (index + 1, juce::dontSendNotification);
+
+        lastInputIndex = index;
+    }
+
+
+
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPluginAudioProcessorEditor)
 };

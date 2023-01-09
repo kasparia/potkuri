@@ -6,21 +6,26 @@ bool SynthVoice::canPlaySound (juce::SynthesiserSound* sound) {
 
 void SynthVoice::startNote (int midiNoteNumber, float velocity, juce::SynthesiserSound *sound, int currentPitchWheelPosition) {
   baseNote = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber);
-  // osc.setFrequency(baseNote);
+  osc.setFrequency(baseNote);
   adsr.noteOn();
-  std::cout << "Start pitch: " << baseNote << std::endl;
+
+  //currentPitch = baseNote;  
 
   runningTime = 0.0;
-  runningNote = 8.5;
+  /*runningNote = 8.5;
   currentPitch = baseNote * 4.0;
   
   if (currentPitch > 19500.0) {
     currentPitch = 19000.0;
-  }
+  }*/
 }
 
 void SynthVoice::stopNote (float velocity, bool allowTailOff) {
   adsr.noteOff();
+
+  if ( !allowTailOff || !adsr.isActive() ) {
+    clearCurrentNote();
+  }
 }
 
 void SynthVoice::controllerMoved (int controllerNumber, int newControllerValue) {
@@ -58,42 +63,52 @@ void SynthVoice::prepareToPlay (double sampleRate, int samplesPerBlock, int outp
 void SynthVoice::renderNextBlock (juce::AudioBuffer< float > &outputBuffer, int startSample, int numSamples) {
   jassert(isPrepared);
 
+  if (!isVoiceActive()) {
+    return;
+  }
+
+  synthBuffer.setSize(outputBuffer.getNumChannels(), numSamples, false, false, true);
+  synthBuffer.clear();
+
   setPitchValue();
 
-  juce::dsp::AudioBlock<float> audioBlock { outputBuffer };
+  juce::dsp::AudioBlock<float> audioBlock { synthBuffer };
   osc.process( juce::dsp::ProcessContextReplacing<float> (audioBlock) );
   gain.process( juce::dsp::ProcessContextReplacing<float> (audioBlock) );
 
-  adsr.applyEnvelopeToBuffer(outputBuffer, startSample, numSamples);
+  adsr.applyEnvelopeToBuffer(synthBuffer, startSample, numSamples);
+
+  for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel) {
+    outputBuffer.addFrom(
+        channel,
+        startSample,
+        synthBuffer,
+        channel,
+        0,
+        numSamples
+    );
+
+    if ( !adsr.isActive() ) {
+      clearCurrentNote();
+    }
+  }
 }
 
-void SynthVoice::setADSRParameters(float attack, float release) {
+void SynthVoice::setADSRParameters(float attack, float decay, float release, float modulationValue) {
   adsrParams.attack = attack;
+  adsrParams.decay = decay;
   adsrParams.release = release;
+  modulationMultiply = modulationValue;
   adsr.setParameters(adsrParams);
 }
 
 void SynthVoice::setPitchValue() {
-  runningTime += 0.1;
-std::cout << "time: " << runningTime << "    PITCH: " << currentPitch << std::endl;
+  runningTime += 0.5;
 
-  if (runningTime > 5.0) {
-
-      if (runningNote > 0.4 && currentPitch > 40.0) {
-        currentPitch = currentPitch - exp(runningNote);
-        runningNote -= (0.8 * adsrParams.release);
-
-        if (currentPitch < 20.0) {
-          currentPitch = 20.0;
-        }
-      } else {
-        currentPitch = 20.0;
-      }
-
-    
-      std::cout << "-----------" << std::endl;
-      osc.setFrequency(currentPitch);
-      runningTime = 0.0;
+  if (runningTime > 100.0) {
+    runningTime = 0.0;
   }
+
+  osc.setFrequency(osc.getFrequency() + sin(modulationMultiply));
   
 }

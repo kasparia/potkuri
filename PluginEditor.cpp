@@ -16,7 +16,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
 
 
     attackSlider.setSliderStyle( juce::Slider::SliderStyle::LinearVertical );
-    attackSlider.setRange(0.01f, 1.0f, 0.02f);
+    attackSlider.setRange(0.0f, 1.0f, 0.02f);
     attackSlider.setValue(0.01f);
     attackSlider.addListener(this);
     attackSlider.setTextBoxStyle (juce::Slider::TextBoxLeft, false, 40, attackSlider.getTextBoxHeight());
@@ -24,11 +24,23 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
 
     addAndMakeVisible(attackLabel);
     attackLabel.setText("Attack", juce::dontSendNotification);
-    attackLabel.attachToComponent(&attackSlider, true);
+    attackLabel.attachToComponent(&attackSlider, false);
+
+
+    decaySlider.setSliderStyle( juce::Slider::SliderStyle::LinearVertical );
+    decaySlider.setRange(0.0f, 1.0f, 0.02f);
+    decaySlider.setValue(0.2f);
+    decaySlider.addListener(this);
+    decaySlider.setTextBoxStyle (juce::Slider::TextBoxLeft, false, 40, decaySlider.getTextBoxHeight());
+    addAndMakeVisible(decaySlider);
+
+    addAndMakeVisible(decayLabel);
+    decayLabel.setText("Decay", juce::dontSendNotification);
+    decayLabel.attachToComponent(&decaySlider, false);
     
 
     releaseSlider.setSliderStyle( juce::Slider::SliderStyle::LinearVertical );
-    releaseSlider.setRange(0.01f, 1.0f, 0.01f);
+    releaseSlider.setRange(0.0f, 10.0f, 0.01f);
     releaseSlider.setValue(0.01f);
     releaseSlider.addListener(this);
     releaseSlider.setTextBoxStyle (juce::Slider::TextBoxLeft, false, 40, releaseSlider.getTextBoxHeight());
@@ -36,7 +48,51 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
 
     addAndMakeVisible(releaseLabel);
     releaseLabel.setText("Release", juce::dontSendNotification);
-    releaseLabel.attachToComponent(&releaseSlider, true);
+    releaseLabel.attachToComponent(&releaseSlider, false);
+
+    // mod
+    modulationSlider.setSliderStyle( juce::Slider::SliderStyle::LinearVertical );
+    modulationSlider.setRange(0.0f, 1000.0f, 0.01f);
+    modulationSlider.setValue(0.0f);
+    modulationSlider.addListener(this);
+    modulationSlider.setTextBoxStyle (juce::Slider::TextBoxLeft, false, 40, modulationSlider.getTextBoxHeight());
+    addAndMakeVisible(modulationSlider);
+
+    addAndMakeVisible(modulationLabel);
+    modulationLabel.setText("Mod", juce::dontSendNotification);
+    modulationLabel.attachToComponent(&modulationSlider, false);
+
+
+
+
+    addAndMakeVisible (midiInputListLabel);
+    midiInputListLabel.setText ("MIDI Input:", juce::dontSendNotification);
+    midiInputListLabel.attachToComponent (&midiInputList, true);
+
+    addAndMakeVisible (midiInputList);
+    midiInputList.setTextWhenNoChoicesAvailable ("No MIDI Inputs Enabled");
+    auto midiInputs = juce::MidiInput::getAvailableDevices();
+
+    juce::StringArray midiInputNames;
+
+    for (auto input : midiInputs)
+        midiInputNames.add (input.name);
+
+    midiInputList.addItemList (midiInputNames, 1);
+
+    // find the first enabled device and use that by default
+    for (auto input : midiInputs)
+    {
+        if (deviceManager.isMidiInputDeviceEnabled (input.identifier))
+        {
+            setMidiInput (midiInputs.indexOf (input));
+            break;
+        }
+    }
+
+    // if no enabled devices were found just use the first one in the list
+    if (midiInputList.getSelectedId() == 0)
+        setMidiInput (0);
     
 
     setSize (640, 480);
@@ -58,8 +114,10 @@ void AudioPluginAudioProcessorEditor::paint (juce::Graphics& g)
 
 void AudioPluginAudioProcessorEditor::resized()
 {
-    attackSlider.setBounds(50, 30, 100, 140);
-    releaseSlider.setBounds(200, 30, 100, 140);
+    attackSlider.setBounds(50, 30, 100, 180);
+    decaySlider.setBounds(150, 30, 100, 180);
+    releaseSlider.setBounds(250, 30, 100, 180);
+    modulationSlider.setBounds(350, 30, 100, 180);
     keyboardComponent.setBounds(30, 300, 500, 200);
 }
 
@@ -67,7 +125,13 @@ void AudioPluginAudioProcessorEditor::sliderValueChanged (juce::Slider *slider) 
     if (slider == &attackSlider) {
         processorRef.attackSliderValue = attackSlider.getValue();
     }
+    if (slider == &decaySlider) {
+        processorRef.decaySliderValue = decaySlider.getValue();
+    }
     if (slider == &releaseSlider) {
         processorRef.releaseSliderValue = releaseSlider.getValue();
+    }
+    if (slider == &modulationSlider) {
+        processorRef.modulationSliderValue = modulationSlider.getValue();
     }
 }

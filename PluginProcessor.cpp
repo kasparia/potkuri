@@ -175,7 +175,7 @@ void AudioPluginAudioProcessor::synthStopNote(int midiNoteNumber, float velocity
 void AudioPluginAudioProcessor::setSynthParameters() {
     for (int voiceIndex = 0; voiceIndex < synth.getNumVoices(); voiceIndex++) {
         if (auto voice = dynamic_cast<SynthVoice*>(synth.getVoice(voiceIndex))) {
-            voice->setADSRParameters(attackSliderValue, releaseSliderValue);
+            voice->setADSRParameters(attackSliderValue, decaySliderValue, releaseSliderValue, modulationSliderValue);
         }
     }
 }

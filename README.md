@@ -1,5 +1,5 @@
 # potkuri
-Simple kick drum plugin...for fun
+Simple and weird synth plugin stuff...for fun
 
 ## Installation and compiling
 JUCE is used as submodule in this project. To get it working locally clone this project normally. Then in project folder run:
