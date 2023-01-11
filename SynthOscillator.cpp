@@ -2,7 +2,7 @@
 
 void SynthOscillator::setWaveType(const int waveChoice) {
     switch (waveChoice) {
-        case 0:
+        case 1:
             // sine wave
             initialise(
                 [](float x) {
@@ -10,7 +10,7 @@ void SynthOscillator::setWaveType(const int waveChoice) {
                 }
             );
             break;
-        case 1: 
+        case 2: 
             // saw wave
             initialise(
                 [](float x) {
@@ -18,7 +18,7 @@ void SynthOscillator::setWaveType(const int waveChoice) {
                 }
             );
             break;
-        case 2:
+        case 3:
             // square wave
             initialise(
                 [](float x) {

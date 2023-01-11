@@ -58,6 +58,8 @@ public:
     float decaySliderValue = 0.2f;
     float releaseSliderValue = 0.1;
     float modulationSliderValue = 0.0f;
+
+    int waveformSelectValue = 1; // default = sine
     
 private:
     //==============================================================================

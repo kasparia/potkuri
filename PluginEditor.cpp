@@ -62,6 +62,15 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
     modulationLabel.setText("Mod", juce::dontSendNotification);
     modulationLabel.attachToComponent(&modulationSlider, false);
 
+    addAndMakeVisible (waveformSelect);
+    waveformSelect.addItem ("SIN", 1);
+    waveformSelect.addItem ("SAW", 2);
+    waveformSelect.addItem ("SQU", 3);
+    waveformSelect.setSelectedId(1);
+    addAndMakeVisible(waveformLabel);
+    waveformLabel.setText("WAVE", juce::dontSendNotification);
+    waveformLabel.attachToComponent(&waveformSelect, false);
+    waveformSelect.onChange = [this] { processorRef.waveformSelectValue = waveformSelect.getSelectedId(); };
 
 
 
@@ -119,6 +128,7 @@ void AudioPluginAudioProcessorEditor::resized()
     releaseSlider.setBounds(250, 30, 100, 180);
     modulationSlider.setBounds(350, 30, 100, 180);
     keyboardComponent.setBounds(30, 300, 500, 200);
+    waveformSelect.setBounds(50, 250, 80, 25);
 }
 
 void AudioPluginAudioProcessorEditor::sliderValueChanged (juce::Slider *slider) {

@@ -178,8 +178,7 @@ void AudioPluginAudioProcessor::setSynthParameters() {
     for (int voiceIndex = 0; voiceIndex < synth.getNumVoices(); voiceIndex++) {
         if (auto voice = dynamic_cast<SynthVoice*>(synth.getVoice(voiceIndex))) {
             voice->setADSRParameters(attackSliderValue, decaySliderValue, releaseSliderValue, modulationSliderValue);
-            const auto& oscWave = 1;
-            voice->getOscillator().setWaveType(0);
+            voice->getOscillator().setWaveType(waveformSelectValue);
         }
     }
 }

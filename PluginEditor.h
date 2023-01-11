@@ -50,6 +50,9 @@ private:
     juce::Label modulationLabel;
     juce::Slider modulationSlider;
 
+    juce::Label waveformLabel;
+    juce::ComboBox waveformSelect;
+
     // These methods handle callbacks from the midi device + on-screen keyboard..
     void handleIncomingMidiMessage (juce::MidiInput* source, const juce::MidiMessage& message) override
     {
