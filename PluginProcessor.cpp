@@ -157,7 +157,9 @@ void AudioPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     }
 
     setSynthParameters(); // set synth adsr etc...
+
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
+    
 
 
     juce::dsp::AudioBlock<float> audioBlock { buffer };
@@ -176,6 +178,8 @@ void AudioPluginAudioProcessor::setSynthParameters() {
     for (int voiceIndex = 0; voiceIndex < synth.getNumVoices(); voiceIndex++) {
         if (auto voice = dynamic_cast<SynthVoice*>(synth.getVoice(voiceIndex))) {
             voice->setADSRParameters(attackSliderValue, decaySliderValue, releaseSliderValue, modulationSliderValue);
+            const auto& oscWave = 1;
+            voice->getOscillator().setWaveType(0);
         }
     }
 }

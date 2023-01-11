@@ -3,6 +3,7 @@
 #include <JuceHeader.h>
 
 #include "SynthSound.h"
+#include "SynthOscillator.h"
 
 class SynthVoice : public juce::SynthesiserVoice {
   public:
@@ -20,27 +21,31 @@ class SynthVoice : public juce::SynthesiserVoice {
 
     void setPitchValue();
 
+    SynthOscillator& getOscillator() { return osc; }
+
   private:
 
     juce::ADSR adsr;
     juce::ADSR::Parameters adsrParams;
 
-    juce::dsp::Oscillator<float> osc {
+    SynthOscillator osc;
+
+    /*juce::dsp::Oscillator<float> osc {
       // sine
-      /*[](float sinX) {
+      [](float sinX) {
         return std::sin(sinX);
-      }*/
+      }
 
       // saw
-      /*[](float sinX) {
+      [](float sinX) {
         return sinX / juce::MathConstants<float>::pi;
-      }*/
+      }
 
       //
       [](float sinX) {
         return sinX / juce::MathConstants<float>::pi * std::sin(sinX);
       }
-    };
+    };*/
 
     juce::AudioBuffer<float> synthBuffer;
 
