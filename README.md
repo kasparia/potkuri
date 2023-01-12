@@ -12,7 +12,8 @@ and
 
 These command fetch JUCE from git reposity for compiling.
 ## Compiling
-Compile using Cmake configuration found from `CMakeList.txt`
+- Compile using Cmake configuration found from `CMakeList.txt`
+- Add new classes to `CMakeList.txt` so cmake finds them and compiles correctly
 ## Running
 Plugin artefacts can be found from:
 `/build/AudioPluginExample_artefacts/JuceLibraryCode/<artefact_type_specific_folder>`
