@@ -123,12 +123,14 @@ void AudioPluginAudioProcessorEditor::paint (juce::Graphics& g)
 
 void AudioPluginAudioProcessorEditor::resized()
 {
-    attackSlider.setBounds(50, 30, 100, 180);
-    decaySlider.setBounds(150, 30, 100, 180);
-    releaseSlider.setBounds(250, 30, 100, 180);
-    modulationSlider.setBounds(350, 30, 100, 180);
-    keyboardComponent.setBounds(30, 300, 500, 200);
-    waveformSelect.setBounds(50, 250, 80, 25);
+    attackSlider.setBounds(30, 30, 100, 180);
+    decaySlider.setBounds(120, 30, 100, 180);
+    releaseSlider.setBounds(220, 30, 100, 180);
+    modulationSlider.setBounds(320, 30, 100, 180);
+    waveformSelect.setBounds(30, 250, 70, 25);
+    
+    keyboardComponent.setBounds(0, 400, 200, 80);
+    
 }
 
 void AudioPluginAudioProcessorEditor::sliderValueChanged (juce::Slider *slider) {
