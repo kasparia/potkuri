@@ -30,29 +30,9 @@ class SynthVoice : public juce::SynthesiserVoice {
 
     SynthOscillator osc;
 
-    /*juce::dsp::Oscillator<float> osc {
-      // sine
-      [](float sinX) {
-        return std::sin(sinX);
-      }
-
-      // saw
-      [](float sinX) {
-        return sinX / juce::MathConstants<float>::pi;
-      }
-
-      //
-      [](float sinX) {
-        return sinX / juce::MathConstants<float>::pi * std::sin(sinX);
-      }
-    };*/
-
     juce::AudioBuffer<float> synthBuffer;
 
     double baseNote;
-    double runningNote = 440.0;
-    double runningTime = 0;
-    double currentPitch = 18000.0;
     double modulationMultiply = 0.0;
 
     juce::dsp::Gain<float> gain;
