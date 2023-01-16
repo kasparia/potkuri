@@ -56,6 +56,7 @@ public:
     void setSynthParameters();
     float attackSliderValue = 0.01f;
     float decaySliderValue = 0.2f;
+    float sustainSliderValue = 0.0;
     float releaseSliderValue = 0.1;
     float modulationSliderValue = 0.0f;
 

@@ -6,7 +6,8 @@ bool SynthVoice::canPlaySound (juce::SynthesiserSound* sound) {
 
 void SynthVoice::startNote (int midiNoteNumber, float velocity, juce::SynthesiserSound *sound, int currentPitchWheelPosition) {
   baseNote = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber);
-  osc.setWaveFrequency(baseNote);
+  std::cout << "basenote" << baseNote << std::endl;
+  osc.setWaveFrequency(midiNoteNumber);
   adsr.noteOn();
 }
 
@@ -31,7 +32,7 @@ void SynthVoice::prepareToPlay (double sampleRate, int samplesPerBlock, int outp
 
   adsrParams.attack = 0.0f;
   adsrParams.decay = 0.5f;
-  adsrParams.sustain = 0.5f;
+  adsrParams.sustain = 0.0f;
   adsrParams.release = 0.2f;
 
 
