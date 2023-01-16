@@ -44,6 +44,9 @@ private:
     juce::Label decayLabel;
     juce::Slider decaySlider;
 
+    juce::Label sustainLabel;
+    juce::Slider sustainSlider;
+
     juce::Label releaseLabel;
     juce::Slider releaseSlider;
     

@@ -17,7 +17,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
 
     attackSlider.setSliderStyle( juce::Slider::SliderStyle::LinearVertical );
     attackSlider.setRange(0.0f, 1.0f, 0.02f);
-    attackSlider.setValue(0.01f);
+    attackSlider.setValue(processorRef.attackSliderValue);
     attackSlider.addListener(this);
     attackSlider.setTextBoxStyle (juce::Slider::TextBoxLeft, false, 40, attackSlider.getTextBoxHeight());
     addAndMakeVisible(attackSlider);
@@ -29,7 +29,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
 
     decaySlider.setSliderStyle( juce::Slider::SliderStyle::LinearVertical );
     decaySlider.setRange(0.0f, 1.0f, 0.02f);
-    decaySlider.setValue(0.2f);
+    decaySlider.setValue(processorRef.decaySliderValue);
     decaySlider.addListener(this);
     decaySlider.setTextBoxStyle (juce::Slider::TextBoxLeft, false, 40, decaySlider.getTextBoxHeight());
     addAndMakeVisible(decaySlider);
@@ -37,11 +37,23 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
     addAndMakeVisible(decayLabel);
     decayLabel.setText("Decay", juce::dontSendNotification);
     decayLabel.attachToComponent(&decaySlider, false);
-    
+
+
+    sustainSlider.setSliderStyle( juce::Slider::SliderStyle::LinearVertical );
+    sustainSlider.setRange(0.0f, 1.0f, 0.02f);
+    sustainSlider.setValue(processorRef.sustainSliderValue);
+    sustainSlider.addListener(this);
+    sustainSlider.setTextBoxStyle (juce::Slider::TextBoxLeft, false, 40, sustainSlider.getTextBoxHeight());
+    addAndMakeVisible(sustainSlider);
+
+    addAndMakeVisible(sustainLabel);
+    sustainLabel.setText("Sustain", juce::dontSendNotification);
+    sustainLabel.attachToComponent(&sustainSlider, false);
+
 
     releaseSlider.setSliderStyle( juce::Slider::SliderStyle::LinearVertical );
-    releaseSlider.setRange(0.0f, 10.0f, 0.01f);
-    releaseSlider.setValue(0.01f);
+    releaseSlider.setRange(0.0f, 10.0f, 0.02f);
+    releaseSlider.setValue(processorRef.releaseSliderValue);
     releaseSlider.addListener(this);
     releaseSlider.setTextBoxStyle (juce::Slider::TextBoxLeft, false, 40, releaseSlider.getTextBoxHeight());
     addAndMakeVisible(releaseSlider);
@@ -53,7 +65,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
     // mod
     modulationSlider.setSliderStyle( juce::Slider::SliderStyle::LinearVertical );
     modulationSlider.setRange(0.0f, 1000.0f, 0.01f);
-    modulationSlider.setValue(0.0f);
+    modulationSlider.setValue(processorRef.modulationSliderValue);
     modulationSlider.addListener(this);
     modulationSlider.setTextBoxStyle (juce::Slider::TextBoxLeft, false, 40, modulationSlider.getTextBoxHeight());
     addAndMakeVisible(modulationSlider);
@@ -125,8 +137,10 @@ void AudioPluginAudioProcessorEditor::resized()
 {
     attackSlider.setBounds(30, 30, 100, 180);
     decaySlider.setBounds(120, 30, 100, 180);
-    releaseSlider.setBounds(220, 30, 100, 180);
-    modulationSlider.setBounds(320, 30, 100, 180);
+    sustainSlider.setBounds(220, 30, 100, 180);
+    releaseSlider.setBounds(320, 30, 100, 180);
+
+    modulationSlider.setBounds(420, 30, 100, 180);
     waveformSelect.setBounds(30, 250, 70, 25);
     
     keyboardComponent.setBounds(0, 400, 200, 80);
@@ -142,6 +156,9 @@ void AudioPluginAudioProcessorEditor::sliderValueChanged (juce::Slider *slider) 
     }
     if (slider == &releaseSlider) {
         processorRef.releaseSliderValue = releaseSlider.getValue();
+    }
+    if (slider == &sustainSlider) {
+        processorRef.sustainSliderValue = sustainSlider.getValue();
     }
     if (slider == &modulationSlider) {
         processorRef.modulationSliderValue = modulationSlider.getValue();
